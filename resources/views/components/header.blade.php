@@ -5,7 +5,7 @@
          <a href="/">home</a>
          <a href="#">about</a>
          <a href="/menu">menu</a>
-         <a href="#">orders</a>
+         <a href="/order">orders</a>
          <a href="#">contact</a>
       </nav>
       @php
@@ -14,15 +14,15 @@
       foreach ($cart as $item) {
          $totalNumber += $item['number'];
       }
-      @endphp
+     @endphp
       <div class="icons">
          <a href="#"><i class="fas fa-search"></i></a>
          <a href="/cart"><i class="fas fa-shopping-cart"></i><span id="cart-number">{{$totalNumber}}</span></a>
-         <div id="user-btn" class="fas fa-user"></div>
+         <!-- <div id="user-btn" class="fas fa-user"></div> -->
          <div id="menu-btn" class="fas fa-bars"></div>
       </div>
 
-      <div class="profile">
+      <!-- <div class="profile">
          <p class="name">name</p>
          <div class="flex">
             <a href="profile.php" class="btn">profile</a>
@@ -33,8 +33,8 @@
             <a href="register.php">register</a>
          </p>
 
-         <!-- <p class="name">please login first!</p>
-            <a href="login.php" class="btn">login</a> -->
-      </div>
+         <p class="name">please login first!</p>
+         <a href="login.php" class="btn">login</a>
+      </div> -->
    </section>
 </header>

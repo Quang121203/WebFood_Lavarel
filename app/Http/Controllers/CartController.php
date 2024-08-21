@@ -21,12 +21,13 @@ class CartController extends Controller
         $product = ProductBusiness::getById($product_id);
 
         if (!$product) {
-            return ['message' => 'Product not found!', 'cartCount' => 0];
+            return ['success' => false, 'message' => 'Product not found!'];
         }
 
         $cart = session()->get('cart', []);
         if (isset($cart[$product_id])) {
             $cart[$product_id]['number'] += $number;
+            $cart[$product_id]['total'] = $cart[$product_id]['price'] * $cart[$product_id]['number'];
         } else {
             $category_name = (CategoryBusiness::getById($product->category_id))->name;
             $cart[$product_id] = [
@@ -45,7 +46,7 @@ class CartController extends Controller
         foreach ($cart as $item) {
             $totalNumber += $item['number'];
         }
-        return ['message' => 'Cart updated', 'cartCount' => $totalNumber];
+        return ['success' => true, 'message' => 'Cart updated', 'cartCount' => $totalNumber];
     }
 
     public function update(Request $request, $id)
@@ -81,6 +82,6 @@ class CartController extends Controller
             $totalNumber += $item['number'];
             $total += $item['total'];
         }
-        return ['messenger'=>'Product successfully deleted.','cartCount' => $totalNumber, 'total' => $total];
+        return ['messenger' => 'Product successfully deleted.', 'cartCount' => $totalNumber, 'total' => $total];
     }
 }

@@ -37,7 +37,7 @@
 
     <div class="cart-total">
         <p>cart total : <span id="cart_total">{{$total}} VND</span></p>
-        <a href="/check-out" class="btn" id="btnBuy">buy</a>
+        <a href="/check-out" class="btn {{session('cart') ? '' : 'disabled'}}" id="btnBuy">buy</a>
     </div>
 
     <div class="more-btn">
@@ -79,14 +79,14 @@
                     _token: '{{ csrf_token() }}',
                 },
                 success: function (data) {
-                    alert(data['messenger']);
+                    toast(data['messenger'],true);
                     $('#container_' + id).hide();
                     $('#cart-number').html(data['cartCount']);
                     $("#cart_total").html(data['total'] + " VND");
                     if (data['total'] == 0) {
                         $('#btnBuy').addClass("disabled");
                     }
-                    else{
+                    else {
                         $('#btnBuy').removeClass("disabled");
                     }
                 },
