@@ -327,7 +327,7 @@ section {
 .category .box-container .box:hover {
    background-color: var(--black);
 }
-
+.category .box-container .box.active img,
 .category .box-container .box:hover img {
    filter: invert(1);
 }

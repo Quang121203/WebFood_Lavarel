@@ -16,6 +16,7 @@ return new class extends Migration
             $table->bigInteger('category_id');
             $table->bigInteger('number_buy')->default(0);
             $table->string('name', 255);
+            $table->text('content');
             $table->string('price', 255);
             $table->string('img', 255)->nullable();
             $table->timestamps();

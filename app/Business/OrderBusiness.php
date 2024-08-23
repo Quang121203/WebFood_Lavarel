@@ -6,6 +6,14 @@ use Illuminate\Support\Facades\Validator;
 
 class OrderBusiness
 {
+    public static function getList($status)
+    {
+        $returnVal = $status >= 0 ?
+            Order::where("status", "=", $status)->orderBy("created_at", 'desc')->get()
+            : Order::orderBy("created_at", 'desc')->get();
+        return $returnVal;
+    }
+
     public static function getById($id)
     {
         return Order::find($id);
@@ -73,5 +81,29 @@ class OrderBusiness
         $order->fill($aInput);
         $order->save();
         return ["success" => true, "msg" => "Order placed successfully.", "id" => $order->id];
+    }
+
+    public static function update($id)
+    {
+        $order = Order::find($id);
+        if ($order) {
+            $order->status += 1;
+            $order->save();
+            return ["success" => true, "msg" => "Updated successfully!"];
+        } else {
+            return ["success" => false, "msg" => "Order does not exist!"];
+        }
+    }
+
+    public static function cancel($id)
+    {
+        $order = Order::find($id);
+        if ($order) {
+            $order->status = 0;
+            $order->save();
+            return ["success" => true, "msg" => "Cancel successfully!"];
+        } else {
+            return ["success" => false, "msg" => "Order does not exist!"];
+        }
     }
 }

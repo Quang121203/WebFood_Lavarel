@@ -18,23 +18,31 @@ use App\Http\Controllers\ProductController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::prefix("/admin")->group(function () {
+    Route::get('/', function () {
+        return view('layouts.admin');
+    });
+
+    Route::get('/category/getList', [CategoryController::class, 'getList'])->name('category.getList');
+    Route::resource('/category', CategoryController::class);
+
+    Route::get('/product/getList/{id}', [ProductController::class, 'getList'])->name('product.getList');
+    Route::resource('/product', ProductController::class);
+
+    Route::get('/order/getList/{status}', [OrderController::class, 'getList'])->name('order.getList');
+    Route::resource('/order', OrderController::class);
+}); 
 
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/menu', [MenuController::class, 'index']);
-
 Route::resource('/cart', CartController::class);
-Route::resource('/order', OrderController::class);
-Route::resource('/category', OrderController::class);
+
+Route::get('/order', [OrderController::class, 'indexHome'])->name('order.indexHome');
+Route::post('/order',[OrderController::class, 'store'])->name('order.store');
 
 Route::get('/product/category/{id}', [ProductController::class, 'getProductByCategory'])->name('product.category');
 Route::resource('/product', ProductController::class);
 
-Route::get('/check-out',function(){
-    return view('pages.check-out');
-});
-
-
-// ----------------------------------------------------------------
-Route::get('/quick',function(){
-    return view('pages.quick');
+Route::get('/check-out', function () {
+    return view('pages.home.check-out');
 });

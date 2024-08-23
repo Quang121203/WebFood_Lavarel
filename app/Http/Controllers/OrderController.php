@@ -9,15 +9,22 @@ use App\Business\ProductBusiness;
 
 class OrderController extends Controller
 {
+    public function getList($status)
+    {
+        return OrderBusiness::getList($status);
+    }
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function indexHome()
     {
         $orders = [];
         if (session('orders')) {
             foreach (session('orders') as $id) {
                 $order = OrderBusiness::getById($id);
+                if (!$order) {
+                    continue;
+                }
                 $orderDetails = OrderDetailBusiness::getByOrderId($id);
                 $product = [];
                 foreach ($orderDetails as $orderDetail) {
@@ -31,7 +38,12 @@ class OrderController extends Controller
                 return $b['created_at'] <=> $a['created_at'];
             });
         }
-        return view('pages.order', ["orders" => $orders]);
+        return view('pages.home.order', ["orders" => $orders]);
+    }
+
+    public function index()
+    {
+        return view('pages.admin.order.index');
     }
 
     /**
@@ -56,7 +68,7 @@ class OrderController extends Controller
                     "order_id" => $order["id"],
                     "product_id" => $item["id"],
                     "quantity" => $item["number"],
-                    "created_at" => $item["price"]
+                    "price" => $item["price"]
                 ];
                 OrderDetailBusiness::create($data);
                 ProductBusiness::buyProduct($item["id"], $item["number"]);
@@ -84,7 +96,13 @@ class OrderController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $order_detail = OrderDetailBusiness::getByOrderId($id);
+        foreach ($order_detail as $data) {
+            $product_name = ProductBusiness::getById($data['product_id'])->name;
+            $data->product_name = $product_name;
+            $data->total = $data->price * $data->quantity;
+        }
+        return $order_detail;
     }
 
     /**
@@ -92,7 +110,7 @@ class OrderController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        return OrderBusiness::update($id);
     }
 
     /**
@@ -100,6 +118,6 @@ class OrderController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        return OrderBusiness::cancel($id);
     }
 }

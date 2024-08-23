@@ -15,6 +15,6 @@ class HomeController extends Controller
         foreach($products as $product) {
             $product["category_name"] = (CategoryBusiness::getById( $product["category_id"]))->name;
         }
-        return view('pages.home',['categories'=>$categories,'products'=>$products]);
+        return view('pages.home.home',['categories'=>$categories,'products'=>$products]);
     }
 }

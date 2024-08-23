@@ -13,6 +13,6 @@ class MenuController extends Controller
         foreach ($products as $product) {
             $product["category_name"] = (CategoryBusiness::getById($product["category_id"]))->name;
         }
-        return view('pages.menu', ['products' => $products]);
+        return view('pages.home.menu', ['products' => $products]);
     }
 }

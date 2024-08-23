@@ -7,12 +7,16 @@ use App\Business\CategoryBusiness;
 
 class CategoryController extends Controller
 {
+    public function getList()
+    {
+        return CategoryBusiness::getList();
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        return view('pages.admin.category.index');
     }
 
     /**
@@ -28,7 +32,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return CategoryBusiness::save($request);
     }
 
     /**
@@ -44,7 +48,7 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return CategoryBusiness::getById($id);
     }
 
     /**
@@ -60,6 +64,6 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        return CategoryBusiness::delete($id);
     }
 }

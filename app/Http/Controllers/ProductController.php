@@ -12,14 +12,24 @@ class ProductController extends Controller
     {
         $categories = CategoryBusiness::getList();
         $products = ProductBusiness::getByCategotyId($id);
-        return view('pages.category', ['categories' => $categories, 'products' => $products, 'id' => $id]);
+        return view('pages.home.category', ['categories' => $categories, 'products' => $products, 'id' => $id]);
     }
+
+    public function getList($id)
+    {
+        $products = $id > 0 ? ProductBusiness::getByCategotyId($id) : ProductBusiness::getList();
+        foreach ($products as $product) {
+            $product['category_name'] = (CategoryBusiness::getById($product['category_id']))['name'];
+        }
+        return $products;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        return view('pages.admin.product.index');
     }
 
     /**
@@ -35,7 +45,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return ProductBusiness::save($request);
     }
 
     /**
@@ -43,7 +53,9 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $product= ProductBusiness::getById($id);
+        $product['category_name'] = (CategoryBusiness::getById($product['category_id']))['name'];
+        return view('pages.home.content',["product"=>$product]);
     }
 
     /**
@@ -51,7 +63,7 @@ class ProductController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return ProductBusiness::getById($id);
     }
 
     /**
@@ -67,6 +79,6 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        return ProductBusiness::delete($id);
     }
 }
