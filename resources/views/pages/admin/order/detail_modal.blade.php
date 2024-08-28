@@ -23,8 +23,11 @@
                     </tbody>
                 </table>
             </div>
-            <div class="modal-footer">
-                <a href="#" class="btn btn-secondary" data-dismiss="modal">
+            <div class="modal-footer d-flex justify-content-between">
+                <div id="button-order">
+
+                </div>
+                <a href="#" class="btn btn-secondary " data-dismiss="modal">
                     Quay về
                 </a>
             </div>

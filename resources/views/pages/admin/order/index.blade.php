@@ -19,19 +19,11 @@
                     <select class="form-control select select-hidden-accessible col-2" id="combobox" name="combobox"
                         tabindex="-1" aria-hidden="true" onchange="changeStatus()">
                         <option value="-1">All</option>
-                        <option value="4">Received</option>
-                        <option value="3">In transit</option>
+                        <option value="3">Complete</option>
                         <option value="2">Confirmed</option>
                         <option value="1" selected="selected">Pending</option>
                         <option value="0">Canceled</option>
                     </select>
-                    <div class="col-md-10">
-                        <button type="button" onclick="openModalCrud(0)"
-                            class="float-right btn btn-success waves-effect waves-light">
-                            <i class="fa fa-plus"></i>
-                            Add
-                        </button>
-                    </div>
                 </div>
             </div>
             <div class="card-body">
@@ -46,7 +38,7 @@
                                 <th class="text-center">Address</th>
                                 <th class="text-center">Total</th>
                                 <th class="text-center">Status</th>
-                                <th class="text-center">#</th>
+                                <th class="text-center">Time</th>
                             </tr>
                         </thead>
                     </table>

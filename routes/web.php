@@ -7,6 +7,8 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\AuthController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -18,7 +20,7 @@ use App\Http\Controllers\ProductController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::prefix("/admin")->group(function () {
+Route::prefix("/admin")->middleware(['auth','test'])->group(function () {
     Route::get('/', function () {
         return view('layouts.admin');
     });
@@ -31,14 +33,15 @@ Route::prefix("/admin")->group(function () {
 
     Route::get('/order/getList/{status}', [OrderController::class, 'getList'])->name('order.getList');
     Route::resource('/order', OrderController::class);
-}); 
+});
+
 
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/menu', [MenuController::class, 'index']);
-Route::resource('/cart', CartController::class);
+Route::resource('/cart', CartController::class)->middleware('auth');;
 
-Route::get('/order', [OrderController::class, 'indexHome'])->name('order.indexHome');
-Route::post('/order',[OrderController::class, 'store'])->name('order.store');
+Route::get('/order', [OrderController::class, 'indexHome'])->name('order.indexHome')->middleware('auth');;
+Route::post('/order',[OrderController::class, 'store'])->name('order.store')->middleware('auth');;
 
 Route::get('/product/category/{id}', [ProductController::class, 'getProductByCategory'])->name('product.category');
 Route::resource('/product', ProductController::class);
@@ -46,3 +49,14 @@ Route::resource('/product', ProductController::class);
 Route::get('/check-out', function () {
     return view('pages.home.check-out');
 });
+
+Route::get('/register', function () {
+    return view('pages.register');
+});
+Route::post('/register', [AuthController::class, 'register'])->name('register');
+
+Route::get('/login', function () {
+    return view('pages.login');
+});
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

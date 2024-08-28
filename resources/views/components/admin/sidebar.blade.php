@@ -1,9 +1,9 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
 
-    <div class="brand-link d-flex align-items-center">
+    <a class="brand-link d-flex align-items-center" href="/">
         <i class="brand-image img-circle elevation-3">🍬</i>
         <span class="brand-text font-weight-light">candy store</span>
-    </div>
+    </a>
 
     <div class="sidebar">
         <nav class="mt-4">

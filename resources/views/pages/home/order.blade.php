@@ -38,10 +38,11 @@
                     $formattedDate = $date->format('d-m-Y');
                 @endphp
 
-                <div class="box" id="{{'order_' . $order['id']}}">
-                    <!-- @if ($order['status'] <= 1 || $order['status'] == 4)
-                        <button class="fas fa-times" onclick="deleteOrder({{$order['status']}},{{$order['id']}})"></button>
-                    @endif -->
+                <div class="box">
+                    @if ($order['status'] == 1)
+                        <button class="fas fa-times" onclick="openModalConfirm({{$order['id']}})"
+                            id="{{'order_button_' . $order['id']}}"></button>
+                    @endif
                     <p>placed on : <span>{{$formattedDate}}</span></p>
                     <p>name : <span>{{$order['name']}}</span></p>
                     <p>email : <span>{{$order['email']}}</span></p>
@@ -59,8 +60,9 @@
                     </p>
                     <p>total price :{{$order['total']}} <span>VND</span></p>
                     <p>payment status :
-                        <span style="color: {{['red', 'black', 'yellow', 'var(--yellow)', 'green'][$order['status']]}}">
-                            {{ ['Order canceled', 'pending', 'Order confirmed', 'Order in transit', 'Order received'][$order['status']] }}
+                        <span style="color: {{['red', 'black','#fed330','#00CC00'][$order['status']]}}"
+                            id="{{'order_status_' . $order['id']}}">
+                            {{ ['Canceled', 'Pending', 'Confirmed','Complete'][$order['status']] }}
                         </span>
                     </p>
                 </div>
@@ -71,3 +73,42 @@
     </div>
 </section>
 @endsection
+
+@push('my_script')
+    <script>
+        var openModalConfirm = function (id) {
+            Swal.fire({
+                title: "Xóa đơn hàng ?",
+                text: "Lưu ý: không thể khôi phục",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Xác nhận",
+                cancelButtonText: "Hủy bỏ",
+            }).then((result) => {
+                if (result.value) {
+                    confirmDelete(id);
+                }
+            });
+        };
+
+        var confirmDelete = (id) => {
+            loadingShow();
+            $.ajax({
+                type: "DELETE",
+                url: baseUrlAdmin + "/order/" + id,
+                success: function (data) {
+                    loadingHide();
+                    toast(data.msg, data.success);
+                    $(`#order_status_${id}`).html("Order cancel");
+                    $(`#order_status_${id}`).css('color', 'red');
+                    $(`#order_button_${id}`).css('display', 'none');
+                },
+                error: function (data) {
+                    alert("Có lỗi xảy ra...", "error");
+                },
+            });
+        }
+    </script>
+@endpush

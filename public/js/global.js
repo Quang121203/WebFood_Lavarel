@@ -54,6 +54,10 @@ var add_to_cart = (id) => {
             $(`#form_product_${id}`).trigger('reset');
         },
         error: function (data) {
+            if (data.statusText == "Unauthorized") {
+                window.location.href = '/login';
+                return;
+            }
             alert("Có lỗi xảy ra...", "error");
         }
     });
@@ -84,3 +88,16 @@ var deleteImg = function () {
     $("#btnDeleteImg").attr("disabled", true);
 }
 
+var logout = function () {
+    $.ajax({
+        url: baseUrl + "/logout",
+        type: "POST",
+        dataType: "json",
+        success: function (data) {
+            window.location.href = '/login';
+        },
+        error: function (data) {
+            alert("Có lỗi xảy ra...", "error");
+        }
+    });
+}

@@ -85,10 +85,12 @@
                 data: formData,
                 dataType: "json",
                 success: function (data) {
-                    toast(data.msg, data.success);
                     if (data.success) {
-                        $('#form_order').trigger('reset');
                         window.location.href = baseUrl + "/order";
+                        $('#form_order').trigger('reset');
+                    }
+                    else{
+                        toast(data.msg, data.success);
                     }
                 },
                 error: function (data) {

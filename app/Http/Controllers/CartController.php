@@ -20,6 +20,10 @@ class CartController extends Controller
         $number = $aInput["number"];
         $product = ProductBusiness::getById($product_id);
 
+        if(!$number){
+            return ['success' => false, 'message' => 'Number is 0'];
+        }
+
         if (!$product) {
             return ['success' => false, 'message' => 'Product not found!'];
         }

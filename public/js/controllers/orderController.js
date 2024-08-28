@@ -48,39 +48,19 @@ var getData = function (resetPaging, status) {
                     class: "text-sm",
                     data: "status",
                     render: function (data, type, full, meta) {
-                        const colors = ['red', 'black', 'black', 'black', 'green'];
-                        const statuses = ['canceled', 'pending', 'confirmed', 'in transit', 'received'];
+                        const colors = ['red', 'black', '#fed330', '#00CC00'];
+                        const statuses = ['canceled', 'pending', 'confirmed', 'complete'];
                         const color = colors[data];
                         const status = statuses[data];
                         return `<span style="color: ${color}">${status}</span>`;
                     }
                 },
                 {
-                    data: function (data, type, full, meta) {
-                        var html = '';
-                        if (data.is_online) {
-                            return "";
-                        }
-                        else {
-                            if (data.status < 4 && data.status != 0) {
-                                html +=
-                                    ' <button type="button" onclick="openModalConfirm(' +
-                                    data.id +
-                                    ',true)" class="btn btn-sm btn-primary waves-effect waves-light">' +
-                                    ['canceled', 'pending', 'confirmed', 'in transit', 'received'][data.status + 1] +
-                                    '</button>'
-                            }
-                            if (data.status == 1) {
-                                html +=
-                                    '<button type="button" onclick="openModalConfirm(' +
-                                    data.id +
-                                    ',false)" class="btn btn-sm btn-danger waves-effect waves-light mx-2">Cancel</button>'
-                            }
-                            return html;
-                        }
-                    },
-                    class: "text-center",
-                    width: "20%",
+                    class: "text-sm",
+                    data: "created_at",
+                    render: function (data, type, full, meta) {
+                        return (moment(data).fromNow());
+                    }
                 },
             ],
             lengthMenu: [[5, 10, 20, 50, -1], [5, 10, 20, 50, "Tất cả"]],
@@ -106,8 +86,9 @@ oTable.on('select', function (e, dt, type, indexes) {
             loadingHide();
             $("#crud-modal-size-small").modal("show");
             $('#detail_order').empty();
+            $('#button-order').empty();
             if (id > 0) {
-                data.map((item, index) => {
+                data.detail.map((item, index) => {
                     $('#detail_order').append(`<tr>
                             <th scope="row">${index + 1}</th>
                             <td>${item.product_name}</td>
@@ -116,6 +97,29 @@ oTable.on('select', function (e, dt, type, indexes) {
                             <td>${item.total}</td>
                         </tr>`);
                 })
+                $('#detail_order').append(`<tr>
+                    <th scope="row"></th>
+                    <td><b>SUM</b></td>
+                    <td></td>
+                    <td></td>
+                    <td><b>${data.order.total}</b></td>
+                </tr>`);
+                if (+data.order.status === 1) {
+                    $('#button-order').append(`<button type="button" onclick="openModalConfirm(${data.order.id}
+                                ,true)" class="btn btn-primary waves-effect waves-light">
+                               Confỉrmed</button>
+                                <button type="button" onclick="openModalConfirm(${data.order.id}
+                                ,false)" class="btn btn-danger waves-effect waves-light mx-2">Cancel</button>`)
+                }
+
+                if (+data.order.status === 2) {
+                    $('#button-order').append(`<button type="button" onclick="openModalConfirm(${data.order.id}
+                                ,true)" class="btn btn-primary waves-effect waves-light">
+                               Complete</button>
+                                <button type="button" onclick="openModalConfirm(${data.order.id}
+                                ,false)" class="btn btn-danger waves-effect waves-light mx-2">Cancel</button>`)
+                }
+
             };
         })
     }

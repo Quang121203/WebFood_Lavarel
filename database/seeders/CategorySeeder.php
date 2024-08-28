@@ -13,23 +13,27 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         DB::table('category')->insert([
-            'name' => "cakes",
+            'name' => "Cakes",
             'img' => 'cake.png',
+            'created_at' => now(),
         ]);
 
         DB::table('category')->insert([
             'name' => "Candies",
             'img' => 'candy.png',
+            'created_at' => now(),
         ]);
 
         DB::table('category')->insert([
             'name' => "Drinks",
             'img' => 'drink.png',
+            'created_at' => now(),
         ]);
 
         DB::table('category')->insert([
             'name' => "Desserts",
             'img' => 'dessert.png',
+            'created_at' => now(),
         ]);
     }
 }

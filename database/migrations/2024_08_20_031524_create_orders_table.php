@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('email', 255);
             $table->string('address', 255);
             $table->string('total', 255);
-            $table->integer('status');
+            $table->integer('status')->default(1);
             $table->softDeletes();
             $table->timestamps();
         });

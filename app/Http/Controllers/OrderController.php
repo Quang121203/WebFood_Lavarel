@@ -61,9 +61,14 @@ class OrderController extends Controller
     {
         $aInput = $request->all();
         $order = OrderBusiness::create($aInput);
+
         if ($order['success']) {
             $cart = session('cart', []);
             foreach ($cart as $item) {
+                $product = ProductBusiness::getById($item["id"]);
+                if (!$product) {
+                    return ['success' => false, 'msg' => $cart[$item["id"]]["name"] . " are no longer sold"];
+                }
                 $data = [
                     "order_id" => $order["id"],
                     "product_id" => $item["id"],
@@ -80,7 +85,7 @@ class OrderController extends Controller
             $orders[] = $order["id"];
             session()->put('orders', $orders);
         }
-        return $order;
+        return ['success' => true];
     }
 
     /**
@@ -96,13 +101,14 @@ class OrderController extends Controller
      */
     public function edit(string $id)
     {
+        $order = OrderBusiness::getByID($id);
         $order_detail = OrderDetailBusiness::getByOrderId($id);
         foreach ($order_detail as $data) {
             $product_name = ProductBusiness::getById($data['product_id'])->name;
             $data->product_name = $product_name;
             $data->total = $data->price * $data->quantity;
         }
-        return $order_detail;
+        return ["detail" => $order_detail, "order" => $order];
     }
 
     /**

@@ -86,6 +86,9 @@ class OrderBusiness
     public static function update($id)
     {
         $order = Order::find($id);
+        if ($order->status == 0) {
+            return ["success" => false, "msg" => "Order has been cancelled"];
+        }
         if ($order) {
             $order->status += 1;
             $order->save();
