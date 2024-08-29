@@ -92,7 +92,7 @@ oTable.on('select', function (e, dt, type, indexes) {
                     $('#detail_order').append(`<tr>
                             <th scope="row">${index + 1}</th>
                             <td>${item.product_name}</td>
-                            <td>${item.quantity}</td>
+                            <td>${item.quanlity}</td>
                             <td>${item.price}</td>
                             <td>${item.total}</td>
                         </tr>`);

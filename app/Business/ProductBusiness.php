@@ -107,7 +107,7 @@ class ProductBusiness
     {
         $product = self::getById($id);
         if ($product) {
-            Storage::disk('public')->delete("categories/" . $product->img);
+            Storage::disk('public')->delete("products/" . $product->img);
             $product->delete();
             return ["success" => true, "msg" => "Deleted successfully"];
         } else {

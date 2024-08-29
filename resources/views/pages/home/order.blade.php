@@ -31,7 +31,7 @@
 <section class="orders">
     <h1 class="title">your orders</h1>
     <div class="box-container">
-        @if($orders)
+        @if(count($orders)>0)
             @foreach($orders as $order)
                 @php
                     $date = new DateTime($order['created_at']);
@@ -51,7 +51,7 @@
                     <p>your orders :
                         @foreach($order['product'] as $index => $product)
                             <span>
-                                {{ $product['name'] }} ({{ $product['quantity'] }})
+                                {{ $product['name'] }} ({{ $product['quanlity'] }})
                                 @if($index < count($order['product']) - 1)
                                     -
                                 @endif

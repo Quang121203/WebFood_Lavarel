@@ -38,17 +38,17 @@ Route::prefix("/admin")->middleware(['auth','test'])->group(function () {
 
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/menu', [MenuController::class, 'index']);
-Route::resource('/cart', CartController::class)->middleware('auth');;
+Route::get('/cart/getCount', [CartController::class, 'getCount'])->name('cart.getCount');
+Route::resource('/cart', CartController::class)->middleware('auth');
 
-Route::get('/order', [OrderController::class, 'indexHome'])->name('order.indexHome')->middleware('auth');;
-Route::post('/order',[OrderController::class, 'store'])->name('order.store')->middleware('auth');;
+
+Route::get('/order', [OrderController::class, 'indexHome'])->name('order.indexHome')->middleware('auth');
+Route::post('/order',[OrderController::class, 'store'])->name('order.store')->middleware('auth');
 
 Route::get('/product/category/{id}', [ProductController::class, 'getProductByCategory'])->name('product.category');
 Route::resource('/product', ProductController::class);
 
-Route::get('/check-out', function () {
-    return view('pages.home.check-out');
-});
+Route::get('/check-out', [CartController::class, 'checkout'])->name('cart.checkout')->middleware('auth');
 
 Route::get('/register', function () {
     return view('pages.register');

@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
-class OrderDetails extends Model
+class Cart extends Model
 {
     use SoftDeletes;
-    protected $table = 'order_details';
+    protected $table = 'cart';
 
 	protected $fillable = [
-		'order_id',
+		'user_id',
 		'product_id',
-        'quanlity',
+        'quanlity'
 	];
 }

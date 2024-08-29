@@ -6,7 +6,7 @@
         border: 3px solid var(--yellow);
     }
 
-    p {
+    .user-info-input {
         display: flex;
         align-items: center;
     }
@@ -31,14 +31,14 @@
             @php
                 $total = 0;
             @endphp
-            @if(session('cart'))
-                    @foreach(session('cart') as $item)
+            @if(count($cart)>0)
+                    @foreach($cart as $item)
                             <p>
-                                <span class="name">{{$item['name']}}</span>
-                                <span class="price"> {{$item['price']}} VND x {{$item['number']}}</span>
+                                <span class="name">{{$item['product']['name']}}</span>
+                                <span class="price"> {{$item['product']['price']}} VND x {{$item['quanlity']}}</span>
                             </p>
                             @php
-                                $total += $item['total']
+                                $total += $item['price']
                             @endphp
                     @endforeach
             @else
@@ -55,11 +55,11 @@
             <h3>your info</h3>
             <input name="total" hidden value="{{$total}}" />
             <input name="status" hidden value="1" />
-            <p><i class="fas fa-user"></i><input placeholder="name" name="name" required /></p>
-            <p><i class="fas fa-phone"></i><input placeholder="phone" name="phone" required type="number"
+            <p class="user-info-input"><i class="fas fa-user"></i><input placeholder="name" name="name" required /></p>
+            <p class="user-info-input"><i class="fas fa-phone"></i><input placeholder="phone" name="phone" required type="number"
                     maxlength="11" /></p>
-            <p><i class="fas fa-envelope"></i><input placeholder="email" name="email" required /></p>
-            <p><i class="fas fa-map-marker-alt"></i><input placeholder="address" name="address" required /></p>
+            <p class="user-info-input"><i class="fas fa-envelope"></i><input placeholder="email" name="email" required /></p>
+            <p class="user-info-input"><i class="fas fa-map-marker-alt"></i><input placeholder="address" name="address" required /></p>
             <select name="method" class="box">
                 <option value="" disabled selected>select payment method --</option>
                 <option value="cash on delivery">cash on delivery</option>

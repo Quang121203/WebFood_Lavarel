@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Business;
+
+use Auth;
 use App\Models\Order;
 use Illuminate\Support\Facades\Validator;
 
@@ -17,6 +19,11 @@ class OrderBusiness
     public static function getById($id)
     {
         return Order::find($id);
+    }
+
+    public static function getByUserId($user_id)
+    {
+        return Order::where("user_id", "=", $user_id)->orderBy("created_at", 'desc')->get();
     }
 
     public static function validateInput($aInput)
@@ -78,6 +85,7 @@ class OrderBusiness
             return $validateRs;
         }
         $order = new Order();
+        $order->user_id =Auth::user()->id;
         $order->fill($aInput);
         $order->save();
         return ["success" => true, "msg" => "Order placed successfully.", "id" => $order->id];

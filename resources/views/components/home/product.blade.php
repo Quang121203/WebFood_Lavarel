@@ -10,7 +10,7 @@
             <div class="name">{{$product->name}}</div>
             <div class="flex">
                 <div class="price">{{$product->price}}<span> VND</span></div>
-                <input type="number" name="number" class="number" min="1" max="99" value="1" maxlength="2">
+                <input type="number" name="quanlity" class="number" min="1" max="99" value="1" maxlength="2">
             </div>
         </form>
     @endforeach

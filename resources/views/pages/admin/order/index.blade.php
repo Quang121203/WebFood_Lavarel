@@ -17,7 +17,7 @@
             <div class="card-header">
                 <div class="row">
                     <select class="form-control select select-hidden-accessible col-2" id="combobox" name="combobox"
-                        tabindex="-1" aria-hidden="true" onchange="changeStatus()">
+                        tabindex="-1" onchange="changeStatus()">
                         <option value="-1">All</option>
                         <option value="3">Complete</option>
                         <option value="2">Confirmed</option>

@@ -16,6 +16,6 @@ class test
      */
     public function handle(Request $request, Closure $next): Response
     {
-        return Auth::user()->role_id!=0 ?$next($request) : redirect('/');
+        return Auth::user()->role_id!=2 ?$next($request) : redirect('/');
     }
 }

@@ -10,24 +10,24 @@
         @php
             $total = 0;
         @endphp
-        @if(session('cart'))
-            @foreach(session('cart') as $item)
-                <div class="box" id="{{'container_' . $item['id']}}">
+        @if(count($cart) > 0)
+            @foreach($cart as $item)
+                <div class="box" id="{{'cart_' . $item['id']}}">
                     <a class="fas fa-eye"></a>
                     <button class="fas fa-times" onclick="cartDelete({{$item['id']}})"></button>
-                    <img alt="{{$item['name']}}" src="{{asset('storage/products/' . $item['img'])}}">
-                    <div class="name">{{$item['name']}}</div>
+                    <img alt="{{$item['product']['name']}}" src="{{asset('storage/products/' . $item['product']['img'])}}">
+                    <div class="name">{{$item['product']['name']}}</div>
                     <div class="flex">
-                        <div class="price" id="item_price">{{$item['price']}}<span>VND</span></div>
-                        <input type="number" name="number" class="number" min="1" max="99" maxlength="2"
-                            value="{{$item['number']}}" onchange="changeNumber(event,{{$item['id']}},{{$item['price']}})">
+                        <div class="price" id="item_price">{{$item['product']['price']}}<span>VND</span></div>
+                        <input type="number" name="quanlity" class="number" min="1" max="99" maxlength="2"
+                            value="{{$item['quanlity']}}" onchange="changeNumber(event,{{$item['product']['id']}})">
                     </div>
                     <div class="sub-total"> sub total :
-                        <span id="{{'item_total_' . $item['id']}}">{{$item['total']}} VND</span>
+                        <span id="{{'item_total_' . $item['product']['id']}}">{{$item['price']}} VND</span>
                     </div>
                 </div>
                 @php
-                    $total += $item['total']
+                    $total += $item['price']
                 @endphp
             @endforeach
         @else
@@ -37,7 +37,7 @@
 
     <div class="cart-total">
         <p>cart total : <span id="cart_total">{{$total}} VND</span></p>
-        <a href="/check-out" class="btn {{session('cart') ? '' : 'disabled'}}" id="btnBuy">buy</a>
+        <a href="/check-out" class="btn {{count($cart) > 0 ? '' : 'disabled'}}" id="btnBuy">buy</a>
     </div>
 
     <div class="more-btn">
@@ -48,21 +48,19 @@
 
 @push('my_script')
     <script>
-        var changeNumber = (event, id, price) => {
-            var number = event.target.value;
+        var changeNumber = (event, product_id) => {
+            var quanlity = event.target.value;
             $.ajax({
-                url: baseUrl + "/cart/" + id,
+                url: baseUrl + "/cart/" + product_id,
                 type: "PUT",
                 data: {
-                    _token: '{{ csrf_token() }}',
-                    number,
-                    price
+                    quanlity
                 },
                 dataType: "json",
                 success: function (data) {
-                    $('#cart-number').html(data['cartCount']);
-                    $("#item_total_" + id).html(price * number + " VND");
-                    $("#cart_total").html(data['total'] + " VND");
+                    $('#cart-number').html(data['total']['totalNumber']);
+                    $("#item_total_" + product_id).html(data['price'] + " VND");
+                    $("#cart_total").html(data['total']['totalPrice'] + " VND");
                 },
                 error: function (data) {
                     alert("Có lỗi xảy ra...", "error");
@@ -75,15 +73,12 @@
                 url: baseUrl + "/cart/" + id,
                 type: "DELETE",
                 dataType: "json",
-                data: {
-                    _token: '{{ csrf_token() }}',
-                },
                 success: function (data) {
-                    toast(data['messenger'],true);
-                    $('#container_' + id).hide();
-                    $('#cart-number').html(data['cartCount']);
-                    $("#cart_total").html(data['total'] + " VND");
-                    if (data['total'] == 0) {
+                    toast(data['msg'], data['success']);
+                    $('#cart_' + id).hide();
+                    $('#cart-number').html(data['total']['totalNumber']);
+                    $("#cart_total").html(data['total']['totalPrice'] + " VND");
+                    if (data['total']['totalNumber'] == 0) {
                         $('#btnBuy').addClass("disabled");
                     }
                     else {

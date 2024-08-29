@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
+use App\Business\CartBusiness;
 use Illuminate\Http\Request;
 use App\Business\OrderBusiness;
 use App\Business\OrderDetailBusiness;
@@ -18,25 +20,17 @@ class OrderController extends Controller
      */
     public function indexHome()
     {
-        $orders = [];
-        if (session('orders')) {
-            foreach (session('orders') as $id) {
-                $order = OrderBusiness::getById($id);
-                if (!$order) {
-                    continue;
-                }
-                $orderDetails = OrderDetailBusiness::getByOrderId($id);
+        $orders = OrderBusiness::getByUserId(Auth::user()->id);
+        if (count($orders) > 0) {
+            foreach ($orders as $order) {
+                $orderDetails = OrderDetailBusiness::getByOrderId($order['id']);
                 $product = [];
                 foreach ($orderDetails as $orderDetail) {
                     $productName = (ProductBusiness::getById($orderDetail->product_id))->name;
-                    $product[] = ["name" => $productName, "quantity" => $orderDetail->quantity];
+                    $product[] = ["name" => $productName, "quanlity" => $orderDetail->quanlity];
                 }
                 $order->product = $product;
-                $orders[] = $order;
             }
-            usort($orders, function ($a, $b) {
-                return $b['created_at'] <=> $a['created_at'];
-            });
         }
         return view('pages.home.order', ["orders" => $orders]);
     }
@@ -63,29 +57,20 @@ class OrderController extends Controller
         $order = OrderBusiness::create($aInput);
 
         if ($order['success']) {
-            $cart = session('cart', []);
+            $cart = CartBusiness::getByUserId(Auth::user()->id);
             foreach ($cart as $item) {
-                $product = ProductBusiness::getById($item["id"]);
-                if (!$product) {
-                    return ['success' => false, 'msg' => $cart[$item["id"]]["name"] . " are no longer sold"];
-                }
                 $data = [
                     "order_id" => $order["id"],
-                    "product_id" => $item["id"],
-                    "quantity" => $item["number"],
-                    "price" => $item["price"]
+                    "product_id" => $item["product_id"],
+                    "quanlity" => $item["quanlity"],
                 ];
                 OrderDetailBusiness::create($data);
-                ProductBusiness::buyProduct($item["id"], $item["number"]);
-                unset($cart[$item["id"]]);
-                session()->put('cart', $cart);
+                ProductBusiness::buyProduct($item["product_id"], $item["quanlity"]);
+                CartBusiness::delete($item['id']);
             }
-
-            $orders = session()->get('orders', []);
-            $orders[] = $order["id"];
-            session()->put('orders', $orders);
+            return ['success' => true];
         }
-        return ['success' => true];
+        return $order;
     }
 
     /**
@@ -104,9 +89,10 @@ class OrderController extends Controller
         $order = OrderBusiness::getByID($id);
         $order_detail = OrderDetailBusiness::getByOrderId($id);
         foreach ($order_detail as $data) {
-            $product_name = ProductBusiness::getById($data['product_id'])->name;
-            $data->product_name = $product_name;
-            $data->total = $data->price * $data->quantity;
+            $product = ProductBusiness::getById($data['product_id']);
+            $data->product_name = $product['name'];
+            $data->price = $product['price'];
+            $data->total = $product['price'] * $data['quanlity'];
         }
         return ["detail" => $order_detail, "order" => $order];
     }

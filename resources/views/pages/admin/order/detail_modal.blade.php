@@ -28,7 +28,7 @@
 
                 </div>
                 <a href="#" class="btn btn-secondary " data-dismiss="modal">
-                    Quay về
+                    Back
                 </a>
             </div>
         </div>

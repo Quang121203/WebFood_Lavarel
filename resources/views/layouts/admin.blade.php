@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
         integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
-    <!-- <link rel="stylesheet" href="https://cdn.datatables.net/2.1.4/css/dataTables.dataTables.css" /> -->
     <link href="https://cdn.datatables.net/v/bs4/dt-2.1.4/sl-2.0.5/datatables.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
@@ -38,11 +37,6 @@
         margin-top: 1rem;
         margin-bottom: 1rem !important;
     }
-
-    /* .nav.nav-treeview.menu-open .nav-item.menu-open a.active{
-        background-color: rgba(255, 255, 255, .1) !important;
-        color: #fff !important;
-    } */
 </style>
 
 <body class="sidebar-mini layout-fixed layout-navbar-fixed">
@@ -79,6 +73,8 @@
 <!-- ckeditor -->
 <script src="{{ asset('lib/ckeditor4.18.0/ckeditor.js') }}"></script>
 <script src="{{ asset('lib/ckfinder/ckfinder.js') }}"></script>
+<!-- moment -->
+<script src="{{ asset('lib/moment/moment.js') }}"></script>
 
 <script src="{{ asset('js/global.js?v=' . time()) }}"></script>
 <script>

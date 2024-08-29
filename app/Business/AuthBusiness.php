@@ -80,7 +80,7 @@ class AuthBusiness
             'email' => $aInput['email'],
             'phone' => $aInput['phone'],
             'address' => $aInput['address'],
-            'role_id' => 1,
+            'role_id' => 2,
             'password' => bcrypt($aInput['password']),
         ]);
 

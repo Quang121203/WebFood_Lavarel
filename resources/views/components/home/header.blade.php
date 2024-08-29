@@ -8,16 +8,10 @@
          <a href="/order">orders</a>
          <a href="#">contact</a>
       </nav>
-      @php
-      $cart = session()->get('cart', []);
-      $totalNumber = 0;
-      foreach ($cart as $item) {
-         $totalNumber += $item['number'];
-      }
-   @endphp
+
       <div class="icons">
          <a href="#"><i class="fas fa-search"></i></a>
-         <a href="/cart"><i class="fas fa-shopping-cart"></i><span id="cart-number">{{$totalNumber}}</span></a>
+         <a href="/cart"><i class="fas fa-shopping-cart"></i><span id="cart-number">0</span></a>
          <div id="user-btn" class="fas fa-user"></div>
          <div id="menu-btn" class="fas fa-bars"></div>
       </div>
@@ -27,15 +21,15 @@
           <p class="name">{{ Auth::user()->name}}</p>
           <div class="flex">
             <a href="profile.php" class="btn">profile</a>
-            @if(Auth::user()->role_id != 0)
-               <a href="/admin" class="btn" style="margin: 1rem 1rem 0rem 1rem">admin</a>
-            @endif
-               <button href="logout" class="delete-btn" onclick="logout()">logout</button>
-            </div>
-         @else
-            <p class="name">please login first!</p>
-            <a href="/login" class="btn">login</a>
+            @if(Auth::user()->role_id != 2)
+            <a href="/admin" class="btn" style="margin: 1rem 1rem 0rem 1rem">admin</a>
          @endif
+            <button href="logout" class="delete-btn" onclick="logout()">logout</button>
+          </div>
+       @else
+       <p class="name">please login first!</p>
+       <a href="/login" class="btn">login</a>
+    @endif
       </div>
    </section>
 </header>

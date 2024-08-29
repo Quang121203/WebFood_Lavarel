@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Business\CartBusiness;
+use App\Business\OrderBusiness;
+use App\Business\OrderDetailBusiness;
 use Illuminate\Http\Request;
 use App\Business\ProductBusiness;
 use App\Business\CategoryBusiness;
@@ -53,9 +56,9 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        $product= ProductBusiness::getById($id);
+        $product = ProductBusiness::getById($id);
         $product['category_name'] = (CategoryBusiness::getById($product['category_id']))['name'];
-        return view('pages.home.content',["product"=>$product]);
+        return view('pages.home.content', ["product" => $product]);
     }
 
     /**
@@ -79,6 +82,17 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
+        $check = OrderDetailBusiness::checkProductInOrder($id);
+        if ($check) {
+            return ["success" => false, "msg" => "The remaining products in the order cannot be deleted"];
+        }
+        
+        $carts = CartBusiness::getByProductId($id);
+        if (count($carts) > 0) {
+            foreach ($carts as $cart) {
+                CartBusiness::delete($cart['id']);
+            }
+        }
         return ProductBusiness::delete($id);
     }
 }

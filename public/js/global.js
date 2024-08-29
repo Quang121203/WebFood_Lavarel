@@ -16,6 +16,26 @@ function loading() {
 
 window.onload = loading;
 
+var getCountCart =()=>{
+    $.ajax({
+        url: baseUrl + "/cart/getCount",
+        type: "GET",
+        dataType: "json",
+        success: function (data) {
+            $('#cart-number').html(data.totalNumber);
+        },
+        error: function (data) {
+            // if (data.statusText == "Unauthorized") {
+            //     $('#cart-number').html(0);
+            //     return;
+            // }
+            alert("Có lỗi xảy ra...", "error");
+        }
+    });
+}
+
+getCountCart();
+
 $('input[type="number"]').on('input', function () {
     var maxLength = $(this).attr('maxlength');
     if (maxLength && $(this).val().length > maxLength) {
@@ -37,7 +57,6 @@ var toast = function (text, type) {
         title: text
     });
 }
-
 
 var add_to_cart = (id) => {
     var formData = $(`#form_product_${id}`).serialize();
@@ -62,7 +81,6 @@ var add_to_cart = (id) => {
         }
     });
 }
-
 
 $("#preview").click(function () {
     $("#avatar").trigger("click");
