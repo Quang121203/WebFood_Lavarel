@@ -24,12 +24,6 @@ class OrderDetailBusiness
             $order = OrderBusiness::getById($orderDetail['order_id']);
             if ($order['status'] != 0 && $order['status'] != 3) {
                 return true;
-            } else {
-                $order->delete();
-                $detail = self::getByOrderId($order['id']);
-                foreach ($detail as $item) {
-                    $item->delete();
-                }
             }
         }
         return false;

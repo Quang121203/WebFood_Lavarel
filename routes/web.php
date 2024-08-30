@@ -8,6 +8,8 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\RoleController;
 
 
 /*
@@ -33,13 +35,21 @@ Route::prefix("/admin")->middleware(['auth','test'])->group(function () {
 
     Route::get('/order/getList/{status}', [OrderController::class, 'getList'])->name('order.getList');
     Route::resource('/order', OrderController::class);
+
+    Route::get('/role/getList', [RoleController::class, 'getList'])->name('role.getList');
+    Route::resource('/role', RoleController::class);
+
+    Route::get('/user/getList/{id}/{isActive}', [UserController::class, 'getList'])->name('user.getList');
+    Route::resource('/user', UserController::class);
 });
 
 
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/menu', [MenuController::class, 'index']);
+
 Route::get('/cart/getCount', [CartController::class, 'getCount'])->name('cart.getCount');
 Route::resource('/cart', CartController::class)->middleware('auth');
+Route::get('/check-out', [CartController::class, 'checkout'])->name('cart.checkout')->middleware('auth');
 
 
 Route::get('/order', [OrderController::class, 'indexHome'])->name('order.indexHome')->middleware('auth');
@@ -47,8 +57,6 @@ Route::post('/order',[OrderController::class, 'store'])->name('order.store')->mi
 
 Route::get('/product/category/{id}', [ProductController::class, 'getProductByCategory'])->name('product.category');
 Route::resource('/product', ProductController::class);
-
-Route::get('/check-out', [CartController::class, 'checkout'])->name('cart.checkout')->middleware('auth');
 
 Route::get('/register', function () {
     return view('pages.register');

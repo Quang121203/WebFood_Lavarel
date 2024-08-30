@@ -38,6 +38,25 @@
                         </li>
                     </ul>
                 </li>
+
+                <li class="nav-item">
+                    <div class="nav-link">
+                        <i class="fa fa-cog" aria-hidden="true"></i>
+                        <p>
+                            System
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </div>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/admin/user" class="nav-link">
+                                <i class="fa fa-user"></i>
+                                <p>User</p>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
             </ul>
         </nav>
     </div>

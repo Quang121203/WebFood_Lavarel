@@ -114,4 +114,10 @@ class ProductBusiness
             return ["success" => false, "msg" => "Product does not exist!"];
         }
     }
+
+    public static function resore($id)
+    {
+        $product = Product::withTrashed()->find($id);
+        return $product;
+    }
 }

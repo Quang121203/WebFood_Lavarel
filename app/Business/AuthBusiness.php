@@ -80,7 +80,8 @@ class AuthBusiness
             'email' => $aInput['email'],
             'phone' => $aInput['phone'],
             'address' => $aInput['address'],
-            'role_id' => 2,
+            'role_id' => $aInput['role_id'] ?? 2,
+            'isActive' => 1,
             'password' => bcrypt($aInput['password']),
         ]);
 
@@ -126,7 +127,7 @@ class AuthBusiness
         if (!$validateRs["success"]) {
             return $validateRs;
         }
-    
+
         if (Auth::attempt($aInput)) {
             return ["success" => true, "msg" => "Login successfully"];
         }

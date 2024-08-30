@@ -24,12 +24,13 @@ class OrderController extends Controller
         if (count($orders) > 0) {
             foreach ($orders as $order) {
                 $orderDetails = OrderDetailBusiness::getByOrderId($order['id']);
-                $product = [];
+                $products = [];
                 foreach ($orderDetails as $orderDetail) {
-                    $productName = (ProductBusiness::getById($orderDetail->product_id))->name;
-                    $product[] = ["name" => $productName, "quanlity" => $orderDetail->quanlity];
+                    $product = ProductBusiness::getById($orderDetail->product_id);
+                    $productName=$product?$product->name:(ProductBusiness::resore($orderDetail->product_id))->name;
+                    $products[] = ["name" => $productName, "quanlity" => $orderDetail->quanlity];
                 }
-                $order->product = $product;
+                $order->product = $products;
             }
         }
         return view('pages.home.order', ["orders" => $orders]);
@@ -90,6 +91,9 @@ class OrderController extends Controller
         $order_detail = OrderDetailBusiness::getByOrderId($id);
         foreach ($order_detail as $data) {
             $product = ProductBusiness::getById($data['product_id']);
+            if(!$product){
+                $product=ProductBusiness::resore($data['product_id']);
+            }
             $data->product_name = $product['name'];
             $data->price = $product['price'];
             $data->total = $product['price'] * $data['quanlity'];
