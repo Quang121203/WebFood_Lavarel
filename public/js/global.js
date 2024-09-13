@@ -1,5 +1,15 @@
 const baseUrl = window.location.origin;
 const baseUrlAdmin = window.location.origin + '/admin';
+let user_current;
+$.ajax({
+    url: baseUrl + "/info",
+    type: "GET",
+    dataType: "json",
+    success: function (data) {
+        user_current = data;
+    }
+});
+
 
 function loadingHide() {
     $('.loader').css('display', 'none');
@@ -16,7 +26,7 @@ function loading() {
 
 window.onload = loading;
 
-var getCountCart =()=>{
+var getCountCart = () => {
     $.ajax({
         url: baseUrl + "/cart/getCount",
         type: "GET",
@@ -25,10 +35,6 @@ var getCountCart =()=>{
             $('#cart-number').html(data.totalNumber);
         },
         error: function (data) {
-            // if (data.statusText == "Unauthorized") {
-            //     $('#cart-number').html(0);
-            //     return;
-            // }
             alert("Có lỗi xảy ra...", "error");
         }
     });

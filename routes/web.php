@@ -45,6 +45,9 @@ Route::prefix("/admin")->middleware(['auth','test'])->group(function () {
 
 
 Route::get('/', [HomeController::class, 'index']);
+Route::get('/info', function () {
+    return Auth::user();
+});
 Route::get('/menu', [MenuController::class, 'index']);
 
 Route::get('/cart/getCount', [CartController::class, 'getCount'])->name('cart.getCount');

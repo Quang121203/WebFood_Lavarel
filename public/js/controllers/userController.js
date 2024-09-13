@@ -69,17 +69,26 @@ var getData = function (resetPaging, role_id, isActive) {
                 },
                 {
                     data: function (data, type, full, meta) {
-                        if (data.is_online) {
-                            return "";
+                        if (data.isActive) {
+                            if (user_current && user_current.id === data.id) {
+                                return "";
+                            }
+                            else {
+                                return (
+                                    ' <button type="button" onclick="openModalCrud(' +
+                                    data.id +
+                                    ')" class="btn btn-sm btn-primary waves-effect waves-light"><i class="fa fa-edit"></i></button>' +
+                                    '<button type="button" onclick="openModalConfirmDelete(' +
+                                    data.id +
+                                    ',false)" class="btn btn-sm btn-danger waves-effect waves-light"><i class="fa fa-trash"></i></button>'
+                                );
+                            }
                         }
                         else {
                             return (
-                                ' <button type="button" onclick="openModalCrud(' +
-                                data.id +
-                                ')" class="btn btn-sm btn-primary waves-effect waves-light"><i class="fa fa-edit"></i></button>' +
                                 '<button type="button" onclick="openModalConfirmDelete(' +
                                 data.id +
-                                ')" class="btn btn-sm btn-danger waves-effect waves-light"><i class="fa fa-trash"></i></button>'
+                                ',true)" class="btn btn-sm btn-primary waves-effect waves-light"><i class="fa fa-reply" aria-hidden="true"></i></button>'
                             );
                         }
                     },
@@ -97,11 +106,11 @@ var getData = function (resetPaging, role_id, isActive) {
 getData(false, 0, 1);
 
 var changeRole = () => {
-    getData(false, $('#combobox').val(),$('#comboboxActive').val());
+    getData(false, $('#combobox').val(), $('#comboboxActive').val());
 }
 
 var changeActive = () => {
-    getData(false, $('#combobox').val(),$('#comboboxActive').val());
+    getData(false, $('#combobox').val(), $('#comboboxActive').val());
 }
 
 var openModalCrud = function (id) {
@@ -150,7 +159,7 @@ var save = function () {
             if (data.success) {
                 $("#crud-modal-size-small").modal("hide");
                 $("#form_user").trigger("reset");
-                getData(false, $('#combobox').val(),$('#comboboxActive').val());
+                getData(false, $('#combobox').val(), $('#comboboxActive').val());
             }
         },
         error: function (data) {
@@ -162,11 +171,11 @@ var save = function () {
     });
 };
 
-var openModalConfirmDelete = function (id) {
+var openModalConfirmDelete = function (id, isActive) {
     Swal.fire({
-        title: "Xóa bản ghi ?",
+        title: isActive ? "Khôi phục bản ghi" : "Xóa bản ghi ?",
         text: "Lưu ý: không thể khôi phục",
-        icon: "warning",
+        icon: isActive ? "info" : "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
@@ -174,23 +183,28 @@ var openModalConfirmDelete = function (id) {
         cancelButtonText: "Hủy bỏ",
     }).then((result) => {
         if (result.value) {
-            confirmDelete(id);
+            confirmDelete(id, isActive);
         }
     });
 };
 
-var confirmDelete = function (id) {
+var confirmDelete = function (id,isActive) {
     loadingShow();
     $.ajax({
         type: "DELETE",
         url: baseUrlAdmin + "/user/" + id,
+        data: {
+            isActive
+        },
         success: function (data) {
             loadingHide();
             toast(data.msg, data.success);
-            getData(false, $('#combobox').val(),$('#comboboxActive').val());
+            getData(false, $('#combobox').val(), $('#comboboxActive').val());
         },
         error: function (data) {
             alert("Có lỗi xảy ra...", "error");
         },
     });
 };
+
+

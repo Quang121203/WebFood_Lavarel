@@ -87,14 +87,14 @@ class UserBusiness
             $user->fill($aInput);
             $user->save();
         }
-    
+
         return ["success" => true, "msg" => "Saved successfully"];
     }
 
-    public static function delete($id)
+    public static function delete($id, $isActive)
     {
         $user = self::getById($id);
-        $user->isActive=0;
+        $user->isActive = $isActive == "true" ? 1 : 0;
         $user->save();
         return ["success" => true, "msg" => "Saved successfully"];
     }
