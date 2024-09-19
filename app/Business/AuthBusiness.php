@@ -75,6 +75,7 @@ class AuthBusiness
         if (count($user) > 0) {
             return ["success" => false, "msg" => "Email already exists"];
         }
+
         User::create([
             'name' => $aInput['name'],
             'email' => $aInput['email'],
@@ -129,6 +130,11 @@ class AuthBusiness
         }
 
         if (Auth::attempt($aInput)) {
+            $user = User::where('email', '=', $aInput['email'])->first();
+            // dd($user);
+            if ($user && !$user->isActive) {
+                return ["success" => false, "msg" => "Your account has been banned"];
+            }
             return ["success" => true, "msg" => "Login successfully"];
         }
         return ["success" => false, "msg" => 'Invalid credentials. Please try again.'];

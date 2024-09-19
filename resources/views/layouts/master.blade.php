@@ -52,6 +52,15 @@
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        error: function (xhr) {
+            if (xhr.status === 401) {
+                window.location.href = '/login';
+            } else if (xhr.status === 403) {
+                alert("Bạn không có quyền thực hiện hành động này.");
+            } else {
+                alert("Có lỗi xảy ra...", "error");
+            }
         }
     });
 

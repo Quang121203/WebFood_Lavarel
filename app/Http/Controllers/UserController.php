@@ -24,6 +24,12 @@ class UserController extends Controller
         return view('pages.admin.user.index');
     }
 
+    public function changePassword(Request $request)
+    {
+        $input = $request->all();
+        return UserBusiness::changePassword($input);
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -62,7 +68,8 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $aInput = $request->all();
+        return UserBusiness::saveBulkRole($aInput);
     }
 
     /**

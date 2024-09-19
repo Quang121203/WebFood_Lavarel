@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
+    public function getRoleUser($id)
+    {
+        return RoleBusiness::getRoleUser($id);
+    }
     public function getList()
     {
         return RoleBusiness::getList();
@@ -16,7 +20,7 @@ class RoleController extends Controller
      */
     public function index()
     {
-        //
+        return view("pages.admin.role.index");
     }
 
     /**
@@ -32,7 +36,8 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $aInput= $request->all();
+        return RoleBusiness::save($aInput);
     }
 
     /**
@@ -48,7 +53,7 @@ class RoleController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return RoleBusiness::getById($id);
     }
 
     /**
@@ -64,6 +69,6 @@ class RoleController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        return RoleBusiness::delete($id);
     }
 }

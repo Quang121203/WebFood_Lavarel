@@ -9,10 +9,14 @@
          <a href="#">contact</a>
       </nav>
 
-      <div class="icons">
-         <a href="#"><i class="fas fa-search"></i></a>
+      <div class="icons" style="display:flex; justufy-content:center">
          <a href="/cart"><i class="fas fa-shopping-cart"></i><span id="cart-number">0</span></a>
-         <div id="user-btn" class="fas fa-user"></div>
+         @if(!Auth::check() || !Auth::user()->img)
+          <div id="user-btn" class="fas fa-user"></div>
+       @else
+       <img id="user-btn" src="{{asset('storage/users/' . Auth::user()->img)}}"
+         style="width:3rem; height:3rem;border-radius: 50% ;"></img>
+    @endif
          <div id="menu-btn" class="fas fa-bars"></div>
       </div>
 
@@ -20,10 +24,7 @@
          @if(Auth::check())
           <p class="name">{{ Auth::user()->name}}</p>
           <div class="flex">
-            <a href="profile.php" class="btn">profile</a>
-            @if(Auth::user()->role_id != 2)
-            <a href="/admin" class="btn" style="margin: 1rem 1rem 0rem 1rem">admin</a>
-         @endif
+            <a href="/profile" class="btn">profile</a>
             <button href="logout" class="delete-btn" onclick="logout()">logout</button>
           </div>
        @else

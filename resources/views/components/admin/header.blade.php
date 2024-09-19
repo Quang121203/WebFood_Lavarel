@@ -12,8 +12,8 @@
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     @php
                         $urlAvatar = asset('images/noAvatar.png');
-                        if (Auth::user() && Auth::user()->avatar) {
-                            $urlAvatar = asset('images/' . Auth::user()->avatar);
+                        if (Auth::user() && Auth::user()->img) {
+                            $urlAvatar = asset('storage/users/' . Auth::user()->img);
                         }
                     @endphp
                     <img id="avatar_header" class="rounded-circle header-profile-user" src="{{ $urlAvatar }}"
@@ -24,7 +24,7 @@
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
                     <!-- item-->
-                    <a class="dropdown-item"><i class="bx bx-user font-size-16 align-middle mr-1"></i>
+                    <a class="dropdown-item" href="/profile"><i class="bx bx-user font-size-16 align-middle mr-1"></i>
                         Profile</a>
                     <button class="dropdown-item text-danger" onclick="logout()"><i
                             class="bx bx-power-off font-size-16 align-middle mr-1 text-danger"></i> Logout</button>

@@ -82,19 +82,30 @@
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        error: function (xhr) {
+            console.log(xhr);
+            if (xhr.status === 401) {
+                // Chuyển hướng đến trang login nếu gặp lỗi 401
+                window.location.href = '/login';
+            } else if (xhr.status === 403) {
+                // Hiển thị thông báo lỗi cho mã lỗi 403
+                alert("Bạn không có quyền thực hiện hành động này.");
+            } else {
+                alert("Có lỗi xảy ra...", "error");
+            }
         }
     });
 
     var url = window.location;
 
-    // for sidebar menu and treeview
+    // for sidebar menu 
     $('ul.nav-treeview a').filter(function () {
         return this.href == url;
-    }).css({ 'background-color': 'rgba(255, 255, 255, .1)', 'color': '#fff'})
+    }).css({ 'background-color': 'rgba(255, 255, 255, .1)', 'color': '#fff' })
         .parentsUntil(".nav-sidebar > .nav-treeview")
         .css({ 'display': 'block' })
         .addClass('menu-open')
-
 </script>
 @stack('my_script')
 

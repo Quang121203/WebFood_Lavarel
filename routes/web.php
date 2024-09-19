@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MenuController;
@@ -22,11 +23,7 @@ use App\Http\Controllers\RoleController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::prefix("/admin")->middleware(['auth','test'])->group(function () {
-    Route::get('/', function () {
-        return view('layouts.admin');
-    });
-
+Route::prefix("/admin")->middleware(['auth','author'])->group(function () {
     Route::get('/category/getList', [CategoryController::class, 'getList'])->name('category.getList');
     Route::resource('/category', CategoryController::class);
 
@@ -36,18 +33,28 @@ Route::prefix("/admin")->middleware(['auth','test'])->group(function () {
     Route::get('/order/getList/{status}', [OrderController::class, 'getList'])->name('order.getList');
     Route::resource('/order', OrderController::class);
 
+    Route::get('/role/getRoleUser/{id}', [RoleController::class, 'getRoleUser'])->name('role.getRoleUser');
     Route::get('/role/getList', [RoleController::class, 'getList'])->name('role.getList');
     Route::resource('/role', RoleController::class);
 
     Route::get('/user/getList/{id}/{isActive}', [UserController::class, 'getList'])->name('user.getList');
     Route::resource('/user', UserController::class);
+
+    Route::get('/roleMenu/getList/{id}', [MenuController::class, 'getList'])->name('role.getListMenu');
+    Route::post('/roleMenu', [MenuController::class, 'store'])->name('role.postListMenu');
+});
+
+Route::prefix("/admin")->middleware(['auth'])->group(function () {
+    Route::get('/', function () {
+        return view('layouts.admin');
+    });
 });
 
 
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/info', function () {
     return Auth::user();
-});
+})->middleware('auth');
 Route::get('/menu', [MenuController::class, 'index']);
 
 Route::get('/cart/getCount', [CartController::class, 'getCount'])->name('cart.getCount');
@@ -60,6 +67,11 @@ Route::post('/order',[OrderController::class, 'store'])->name('order.store')->mi
 
 Route::get('/product/category/{id}', [ProductController::class, 'getProductByCategory'])->name('product.category');
 Route::resource('/product', ProductController::class);
+
+Route::get('/profile', [ProfileController::class, 'getProfile'])->name('profile.getProfile')->middleware('auth');
+Route::post('/profile', [ProfileController::class, 'postProfile'])->name('profile.postProfile')->middleware('auth');
+
+Route::post('changePassword', [UserController::class, 'changePassword'])->name('user.changePassword')->middleware('auth');
 
 Route::get('/register', function () {
     return view('pages.register');

@@ -5,12 +5,14 @@ namespace App\Business;
 use Illuminate\Support\Facades\Validator;
 use App\Business\AuthBusiness;
 use App\Models\User;
+use Auth;
+use Hash;
 
 class UserBusiness
 {
     public static function getList($isActive)
     {
-        $returnVal = User::where("isActive", $isActive)->orderBy("created_at", 'desc')->get();
+        $returnVal = User::where("isActive", $isActive)->where("role_id", "!=", "1")->orderBy("created_at", 'desc')->get();
         return $returnVal;
     }
 
@@ -98,4 +100,52 @@ class UserBusiness
         $user->save();
         return ["success" => true, "msg" => "Saved successfully"];
     }
+
+    public static function saveBulkRole($aInput)
+    {
+        $user = self::getByRoleId($aInput['role_id'], 1);
+        foreach ($user as $item) {
+            User::where('id', $item['id'])->update(['role_id' => 2]);
+        }
+
+        $valuesOn = array_filter($aInput, function ($value) {
+            return $value === "on";
+        });
+        foreach ($valuesOn as $key => $id) {
+            User::where('id', $key)->update(['role_id' => $aInput['role_id']]);
+        }
+        return ["success" => true, "msg" => "Saved successfully"];
+    }
+
+    public static function changePassword($input)
+    {
+        $rules = [
+            'current_password' => ['required'],
+            'new_password' => ['required'],
+            'new_confirm_password' => ['same:new_password'],
+        ];
+        $validator = Validator::make($input, $rules);
+        $msg = "";
+        if ($validator->fails()) {
+            $errors = $validator->errors()->getMessages();
+            $msg = "<ul>";
+            foreach ($errors as $error) {
+                foreach ($error as $message) {
+                    $msg = $msg . "<li>{$message}</li>";
+                }
+            }
+            $msg = $msg . "</ul>";
+            return ["success" => false, "message" => $msg];
+        }
+
+        if (!Hash::check($input['current_password'], Auth::user()->password)) {
+            return ["success" => false, "message" => "Password is incorrect"];
+        }
+
+        $user = self::getById(Auth::user()->id);
+        $user->password =Hash::make($input['new_password']);
+        $user->save();
+        return ["success" => true, "message" => "Save Successfully"];
+    }
+    
 }

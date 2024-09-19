@@ -1,5 +1,6 @@
 const baseUrl = window.location.origin;
 const baseUrlAdmin = window.location.origin + '/admin';
+
 let user_current;
 $.ajax({
     url: baseUrl + "/info",
@@ -9,7 +10,6 @@ $.ajax({
         user_current = data;
     }
 });
-
 
 function loadingHide() {
     $('.loader').css('display', 'none');
@@ -77,13 +77,6 @@ var add_to_cart = (id) => {
                 $('#cart-number').html(data['cartCount']);
             }
             $(`#form_product_${id}`).trigger('reset');
-        },
-        error: function (data) {
-            if (data.statusText == "Unauthorized") {
-                window.location.href = '/login';
-                return;
-            }
-            alert("Có lỗi xảy ra...", "error");
         }
     });
 }

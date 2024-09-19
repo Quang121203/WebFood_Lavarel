@@ -1,6 +1,9 @@
 @extends('layouts.master')
 
 @section('content')
+@php
+    $user = Auth::user();
+@endphp
 <style>
     input:focus {
         border: 3px solid var(--yellow);
@@ -31,7 +34,7 @@
             @php
                 $total = 0;
             @endphp
-            @if(count($cart)>0)
+            @if(count($cart) > 0)
                     @foreach($cart as $item)
                             <p>
                                 <span class="name">{{$item['product']['name']}}</span>
@@ -55,11 +58,13 @@
             <h3>your info</h3>
             <input name="total" hidden value="{{$total}}" />
             <input name="status" hidden value="1" />
-            <p class="user-info-input"><i class="fas fa-user"></i><input placeholder="name" name="name" required /></p>
-            <p class="user-info-input"><i class="fas fa-phone"></i><input placeholder="phone" name="phone" required type="number"
-                    maxlength="11" /></p>
-            <p class="user-info-input"><i class="fas fa-envelope"></i><input placeholder="email" name="email" required /></p>
-            <p class="user-info-input"><i class="fas fa-map-marker-alt"></i><input placeholder="address" name="address" required /></p>
+            <p class="user-info-input"><i class="fas fa-user"></i><input placeholder="name" name="name" required value="{{$user->name}}"/></p>
+            <p class="user-info-input"><i class="fas fa-phone"></i><input placeholder="phone" name="phone" required
+                    type="number" maxlength="12" value="{{$user->phone}}"/></p>
+            <p class="user-info-input"><i class="fas fa-envelope"></i><input placeholder="email" name="email"
+                    required value="{{$user->email}}"/></p>
+            <p class="user-info-input"><i class="fas fa-map-marker-alt"></i><input placeholder="address" name="address"
+                    required value="{{$user->address}}"/></p>
             <select name="method" class="box">
                 <option value="" disabled selected>select payment method --</option>
                 <option value="cash on delivery">cash on delivery</option>
@@ -89,7 +94,7 @@
                         window.location.href = baseUrl + "/order";
                         $('#form_order').trigger('reset');
                     }
-                    else{
+                    else {
                         toast(data.msg, data.success);
                     }
                 },
