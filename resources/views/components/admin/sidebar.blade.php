@@ -6,7 +6,7 @@
 
     <a class="brand-link d-flex align-items-center" href="/">
         <i class="brand-image img-circle elevation-3">🍬</i>
-        <span class="brand-text font-weight-light">candy store</span>
+        <span class="brand-text font-weight-light">napoleQuang store</span>
     </a>
 
     <div class="sidebar">

@@ -11,7 +11,7 @@
     </div>
 </div>
 
-<div class="row">
+<div class="row col-12">
     <div class="col-md-6">
         <div class="col-md-12">
             <div class="card">

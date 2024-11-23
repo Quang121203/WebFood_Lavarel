@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('category_id');
             $table->bigInteger('number_buy')->default(0);
+            $table->bigInteger('store')->default(0);
             $table->bigInteger('quanlity')->default(0);
             $table->string('name', 255);
             $table->text('content')->nullable();

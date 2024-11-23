@@ -59,6 +59,11 @@ var getData = function (resetPaging, category_id) {
                 },
                 {
                     class: "text-sm",
+                    data: "store",
+                    render: $.fn.dataTable.render.text()
+                },
+                {
+                    class: "text-sm",
                     data: "price",
                     render: $.fn.dataTable.render.text()
                 },
@@ -109,6 +114,7 @@ var openModalCrud = function (id) {
             $('#id').val(data.id);
             $('#name').val(data.name);
             $('#price').val(data.price);
+            $('#store').val(data.store);
             $('#category').val(data.category_id);
             $("#preview").attr("src", baseUrl + "/storage/products/" + data.img);
             $("#btnDeleteImg").attr("disabled", false);
@@ -123,6 +129,7 @@ var openModalCrud = function (id) {
             $("#preview").attr("src", '/images/no-image.png');
             $("#avarta").val(null);
             $("#img").val(null);
+            editor.setData(data.content);   
         }
     });
 };

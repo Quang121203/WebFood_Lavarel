@@ -37,6 +37,7 @@
                                 <th class="text-center">Name</th>
                                 <th class="text-center">Category</th>
                                 <th class="text-center">Purchased</th>
+                                <th class="text-center">Store</th>
                                 <th class="text-center">Price</th>
                                 <th class="text-center">#</th>
                             </tr>

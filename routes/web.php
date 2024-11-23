@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -52,6 +53,7 @@ Route::prefix("/admin")->middleware(['auth'])->group(function () {
 
 
 Route::get('/', [HomeController::class, 'index']);
+Route::get('/about', [HomeController::class, 'indexAbout']);
 Route::get('/info', function () {
     return Auth::user();
 })->middleware('auth');
@@ -67,6 +69,8 @@ Route::post('/order',[OrderController::class, 'store'])->name('order.store')->mi
 
 Route::get('/product/category/{id}', [ProductController::class, 'getProductByCategory'])->name('product.category');
 Route::resource('/product', ProductController::class);
+
+Route::resource('/comment', CommentController::class)->middleware('auth');
 
 Route::get('/profile', [ProfileController::class, 'getProfile'])->name('profile.getProfile')->middleware('auth');
 Route::post('/profile', [ProfileController::class, 'postProfile'])->name('profile.postProfile')->middleware('auth');

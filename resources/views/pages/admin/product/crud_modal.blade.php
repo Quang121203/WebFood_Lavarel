@@ -38,10 +38,18 @@
                                 </select>
                             </div>
 
-                            <div class="form-group">
-                                <label class="form-label">Price</label>
-                                <input type="number" class="form-control" id='price' name="price">
+                            <div class="d-flex justify-content-between">
+                                <div class="form-group col-6">
+                                    <label class="form-label">Price</label>
+                                    <input type="number" class="form-control" id='price' name="price">
+                                </div>
+
+                                <div class="form-group col-6">
+                                    <label class="form-label">Store</label>
+                                    <input type="number" class="form-control" id='store' name="store">
+                                </div>
                             </div>
+
                         </div>
                     </div>
                     <div class="row">

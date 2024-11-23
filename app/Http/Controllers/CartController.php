@@ -57,15 +57,20 @@ class CartController extends Controller
         $data = $request->all();
         $quanlity = $data["quanlity"];
 
-        $cart = CartBusiness::getById(Auth::user()->id, $product_id);
-        $cart->quanlity = $quanlity;
-        $cart->save();
+        $cart = CartBusiness::getById(Auth::user()->id, $product_id);        
 
         $total = self::getCount();
         $product = ProductBusiness::getById($product_id);
+
+        if($quanlity> $product->store){
+            return ['success' => false, 'message' => 'The quantity entered exceeds available stock. Please adjust your order'];
+        }
+
+        $cart->quanlity = $quanlity;
+        $cart->save();
         $price = $product['price'] * $quanlity;
 
-        return ['total' => $total, 'price' => $price];
+        return ['success' => true,'total' => $total, 'price' => $price];
     }
 
     public function destroy($id)

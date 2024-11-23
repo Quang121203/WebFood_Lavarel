@@ -71,6 +71,8 @@
         })
         window.stepper = stepper
     })
+
+    
 </script>
 
 @stack('my_script')

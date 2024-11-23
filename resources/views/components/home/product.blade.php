@@ -8,9 +8,11 @@
             <img alt="{{$product->name}}" src="{{asset('storage/products/' . $product->img)}}">
             <a class="cat" href="/product/category/{{$product['id']}}">{{$product->category_name}}</a>
             <div class="name">{{$product->name}}</div>
+            <div class="name">{{$product->store==0?"Sold out":"Store: ".$product->store}}</div>
             <div class="flex">
                 <div class="price">{{$product->price}}<span> VND</span></div>
-                <input type="number" name="quanlity" class="number" min="1" max="99" value="1" maxlength="2">
+                <input type="number" name="quanlity" class="number" min="{{ $product->store == 0 ? 0 : 1 }}" max={{$product->store}}
+                value="{{ $product->store == 0 ? 0 : 1 }}"  maxlength="2">
             </div>
         </form>
     @endforeach

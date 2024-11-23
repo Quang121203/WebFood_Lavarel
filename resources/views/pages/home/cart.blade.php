@@ -13,14 +13,13 @@
         @if(count($cart) > 0)
             @foreach($cart as $item)
                 <div class="box" id="{{'cart_' . $item['id']}}">
-                    <a class="fas fa-eye"></a>
+                    <a class="fas fa-eye" href="/product/{{$item['product']['id']}}"></a>
                     <button class="fas fa-times" onclick="cartDelete({{$item['id']}})"></button>
                     <img alt="{{$item['product']['name']}}" src="{{asset('storage/products/' . $item['product']['img'])}}">
                     <div class="name">{{$item['product']['name']}}</div>
                     <div class="flex">
-                        <div class="price" id="item_price">{{$item['product']['price']}}<span>VND</span></div>
-                        <input type="number" name="quanlity" class="number" min="1" max="99" maxlength="2"
-                            value="{{$item['quanlity']}}" onchange="changeNumber(event,{{$item['product']['id']}})">
+                        <div class="price" id="item_price">{{$item['product']['price']}}<span> VND x </span> {{$item['quanlity']}}</div>
+                       
                     </div>
                     <div class="sub-total"> sub total :
                         <span id="{{'item_total_' . $item['product']['id']}}">{{$item['price']}} VND</span>
@@ -48,26 +47,6 @@
 
 @push('my_script')
     <script>
-        var changeNumber = (event, product_id) => {
-            var quanlity = event.target.value;
-            $.ajax({
-                url: baseUrl + "/cart/" + product_id,
-                type: "PUT",
-                data: {
-                    quanlity
-                },
-                dataType: "json",
-                success: function (data) {
-                    $('#cart-number').html(data['total']['totalNumber']);
-                    $("#item_total_" + product_id).html(data['price'] + " VND");
-                    $("#cart_total").html(data['total']['totalPrice'] + " VND");
-                },
-                error: function (data) {
-                    alert("Có lỗi xảy ra...", "error");
-                }
-            });
-        }
-
         var cartDelete = (id) => {
             $.ajax({
                 url: baseUrl + "/cart/" + id,

@@ -1089,3 +1089,295 @@ section {
 
 }
 
+.pagination {
+   display: flex; /* Sử dụng flexbox để dễ dàng căn giữa */
+   justify-content: center; /* Căn giữa các nút */
+   margin-top: 15px; /* Khoảng cách trên nút phân trang */
+}
+
+.pagination a {
+   text-decoration: none; /* Xóa gạch chân khỏi liên kết */
+   color: #007bff; /* Màu chữ cho liên kết */
+   padding: 8px 12px; /* Khoảng cách bên trong nút */
+   margin: 0 5px; /* Khoảng cách giữa các nút */
+   border: 1px solid #007bff; /* Đường viền cho nút */
+   border-radius: 4px; /* Bo tròn góc */
+   transition: background-color 0.3s, color 0.3s; /* Hiệu ứng chuyển màu */
+}
+
+.pagination a:hover {
+   background-color: #007bff; /* Màu nền khi hover */
+   color: white; /* Màu chữ khi hover */
+}
+
+.pagination .active {
+   background-color: #007bff; /* Màu nền cho nút đang được chọn */
+   color: white; /* Màu chữ cho nút đang được chọn */
+   border: 1px solid #007bff; /* Đường viền cho nút đang được chọn */
+}
+
+  .review {
+   background-color: #f9f9f9;
+   padding: 20px;
+   border-radius: 10px;
+   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+   margin-top: 30px;
+}
+.like-dislike {
+   margin-top: 10px;
+}
+.report-menu {
+   position: absolute;
+   right: 10px; /* Đặt nó cách bên phải một khoảng cách */
+   top: 10px; /* Đặt nó ở vị trí mong muốn */
+   display: inline-block;
+   cursor: pointer;
+}
+.report-btn {
+   font-size: 24px; /* Tăng kích thước chữ */
+   color: #FF5733; /* Màu sắc nổi bật, bạn có thể thay đổi màu này */
+   cursor: pointer; /* Chỉ thị rằng đây là một nút có thể nhấn */
+   padding: 5px; /* Thêm khoảng cách xung quanh */
+   transition: color 0.3s ease; /* Hiệu ứng chuyển màu khi di chuột */
+}
+
+.report-btn:hover {
+   color: #C70039; /* Màu khi di chuột vào */
+}
+
+
+.report-options {
+   position: absolute;
+   background-color: #fff;
+   border: 1px solid #ccc;
+   border-radius: 5px;
+   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+   z-index: 1;
+   margin-top: 5px;
+   width: 200px; /* Độ rộng menu */
+}
+
+.report-option {
+   padding: 8px 12px; /* Thêm padding để dễ nhấn */
+   cursor: pointer;
+}
+
+.report-option:hover {
+   background-color: #f0f0f0; /* Hiệu ứng hover */
+}
+.like-btn,
+.dislike-btn {
+   background-color: #007bff;
+   color: #fff;
+   border: none;
+   border-radius: 3px;
+   padding: 5px 10px;
+   cursor: pointer;
+   margin-right: 5px;
+   transition: background-color 0.3s;
+}
+.user-image {
+   border-radius: 50%; /* Làm tròn avatar */
+   position: absolute; /* Đặt vị trí tuyệt đối */
+   width: 2rem;
+   height: 2rem;
+   left:1rem;
+   top:50%;
+   transform: translateY(-50%);
+}
+
+.like-btn:hover,
+.dislike-btn:hover {
+   background-color: #0056b3;
+}
+
+.admin-reply {
+   margin-left: 20px; /* Thụt vào */
+   padding: 10px;
+   background-color: #f9f9f9;
+   border-left: 4px solid #007bff;
+   border-radius: 5px;
+   margin-top: 10px;
+}
+.review-title {
+   font-size: 24px;
+   margin-bottom: 10px;
+}
+
+.star-rating i {
+   font-size: 24px;
+   cursor: pointer;
+   color: #ddd;
+}
+
+.star-rating i.checked {
+   color: #FFD700;
+}
+
+.comment-box {
+   margin-top: 15px;
+}
+
+.comment-box textarea {
+   width: 100%;
+   padding: 10px;
+   border: 1px solid #ddd;
+   border-radius: 5px;
+   font-size: 16px;
+}
+
+.comment-box .btn {
+   margin-top: 10px;
+   background-color: #4CAF50;
+   color: #fff;
+   padding: 10px 20px;
+   border: none;
+   cursor: pointer;
+   border-radius: 5px;
+}
+
+.all-reviews {
+   margin-top: 30px;
+}
+
+.review-card {
+   position: relative; /* Để các phần tử con có thể dùng vị trí tuyệt đối */
+   padding: 15px; /* Khoảng cách bên trong */
+   border: 1px solid #ccc; /* Đường viền (tùy chọn) */
+   margin-bottom: 20px; /* Khoảng cách giữa các bình luận */
+   background: #fff; /* Màu nền (tùy chọn) */
+   border-radius: 5px; /* Bo góc */
+}
+
+.review-card .user-image {
+   width: 50px;
+   height: 50px;
+   border-radius: 50%;
+   object-fit: cover;
+   margin-right: 15px;
+}
+.review-info {
+   margin-left: 75px; /* Đảm bảo không bị che bởi ảnh */
+   display: flex;
+   justify-content: space-between;
+}
+.review-card .review-info {
+   flex-grow: 1;
+}
+
+.review-card .user-name {
+   font-weight: bold;
+   margin-bottom: 5px;
+}
+
+/* .review-card .star-rating.static i {
+   color: #FFD700;
+} */
+
+.review-card .user-comment {
+   margin-top: 5px;
+   font-size: 14px;
+   color: #555;
+}
+.user-replies {
+   margin-top: 10px;
+   padding-left: 20px;
+}
+
+.user-reply {
+   padding: 5px 0;
+   border-bottom: 1px solid #eee;
+}
+.reply-box {
+   margin-top: 10px;
+}
+
+.reply-text {
+   width: 100%;
+   height: 50px;
+   padding: 10px;
+   border: 1px solid #ccc;
+   border-radius: 5px;
+   margin-bottom: 5px;
+}
+
+.submit-reply-btn {
+   padding: 5px 10px;
+   background-color: #4CAF50;
+   color: white;
+   border: none;
+   border-radius: 5px;
+   cursor: pointer;
+}
+
+.submit-reply-btn:hover {
+   background-color: #45a049;
+}
+
+.reply-btn {
+   background-color: #007BFF; /* Màu nền xanh */
+   color: white; /* Màu chữ trắng */
+   border: none; /* Loại bỏ viền */
+   padding: 8px 12px; /* Đệm trong nút */
+   border-radius: 5px; /* Bo góc nút */
+   font-size: 14px; /* Cỡ chữ */
+   cursor: pointer; /* Con trỏ dạng tay khi hover */
+   margin-top: 10px; /* Khoảng cách phía trên */
+}
+
+.reply-btn:hover {
+   background-color: #0056b3; /* Màu nền đậm hơn khi hover */
+}
+.user-reply {
+   display: flex; /* Sắp xếp theo hàng */
+   flex-direction: column; /* Cho phép nội dung có thể chồng lên nhau */
+   margin: 10px 0; /* Khoảng cách giữa các reply */
+   padding: 10px; /* Padding cho các reply */
+   border: 1px solid #e0e0e0; /* Đường viền cho các reply */
+   border-radius: 5px; /* Bo góc */
+   background-color: #f9f9f9; /* Màu nền */
+}
+
+
+
+.user-avatar {
+   width: 30px; /* Kích thước ảnh */
+   height: 30px; /* Kích thước ảnh */
+   border-radius: 50%; /* Hình tròn */
+   margin-right: 10px; /* Khoảng cách giữa ảnh và tên */
+}
+
+.user-name {
+   font-weight: bold; /* Chữ đậm cho tên người dùng */
+   font-size: 1.1em; /* Kích thước chữ lớn hơn */
+}
+
+.reply-content {
+   margin: 5px 0; /* Khoảng cách giữa nội dung reply và thời gian */
+   font-size: 1em; /* Kích thước chữ bình thường */
+}
+
+.reply-date {
+   color: gray; /* Màu chữ cho thời gian */
+   font-size: 0.8em; /* Kích thước chữ nhỏ hơn */
+   margin-top: 5px; /* Khoảng cách trên cho thời gian */
+}
+
+.admin-reply {
+   background-color: #fff8c4; /* Màu vàng nhạt cho admin */
+   border-left: 4px solid #f1c40f; /* Đường viền vàng bên trái */
+}
+.toggle-comments-btn {
+   background-color: #007bff;
+   color: white;
+   padding: 10px 20px;
+   border: none;
+   cursor: pointer;
+   margin-bottom: 15px;
+   font-size: 16px;
+   border-radius: 5px;
+}
+
+.toggle-comments-btn:hover {
+   background-color: #0056b3;
+}

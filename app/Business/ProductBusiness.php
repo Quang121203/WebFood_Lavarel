@@ -34,6 +34,15 @@ class ProductBusiness
     {
         $product = Product::find($id);
         $product['number_buy'] += $number;
+        $product['store'] -= $number;
+        $product->save();
+    }
+
+    public static function cancelProduct($id, $number)
+    {
+        $product = Product::find($id);
+        $product['number_buy'] -= $number;
+        $product['store'] += $number;
         $product->save();
     }
 

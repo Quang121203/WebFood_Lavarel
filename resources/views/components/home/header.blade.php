@@ -1,12 +1,11 @@
 <header class="header">
    <section class="flex">
-      <a href="/" class="logo">candy store 🍬</a>
+      <a href="/" class="logo">napoleQuang store 🍬</a>
       <nav class="navbar">
          <a href="/">home</a>
-         <a href="#">about</a>
+         <a href="/about">about</a>
          <a href="/menu">menu</a>
          <a href="/order">orders</a>
-         <a href="#">contact</a>
       </nav>
 
       <div class="icons" style="display:flex; justufy-content:center">

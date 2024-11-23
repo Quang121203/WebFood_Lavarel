@@ -27,7 +27,7 @@ class OrderController extends Controller
                 $products = [];
                 foreach ($orderDetails as $orderDetail) {
                     $product = ProductBusiness::getById($orderDetail->product_id);
-                    $productName=$product?$product->name:(ProductBusiness::resore($orderDetail->product_id))->name;
+                    $productName = $product ? $product->name : (ProductBusiness::resore($orderDetail->product_id))->name;
                     $products[] = ["name" => $productName, "quanlity" => $orderDetail->quanlity];
                 }
                 $order->product = $products;
@@ -91,8 +91,8 @@ class OrderController extends Controller
         $order_detail = OrderDetailBusiness::getByOrderId($id);
         foreach ($order_detail as $data) {
             $product = ProductBusiness::getById($data['product_id']);
-            if(!$product){
-                $product=ProductBusiness::resore($data['product_id']);
+            if (!$product) {
+                $product = ProductBusiness::resore($data['product_id']);
             }
             $data->product_name = $product['name'];
             $data->price = $product['price'];
@@ -114,6 +114,12 @@ class OrderController extends Controller
      */
     public function destroy(string $id)
     {
+        $orderDetails = OrderDetailBusiness::getByOrderId($id);
+        foreach ($orderDetails as $item) {
+            ProductBusiness::cancelProduct($item["product_id"], $item["quanlity"]);
+        }
+
         return OrderBusiness::cancel($id);
+
     }
 }

@@ -65,13 +65,13 @@
                     required value="{{$user->email}}"/></p>
             <p class="user-info-input"><i class="fas fa-map-marker-alt"></i><input placeholder="address" name="address"
                     required value="{{$user->address}}"/></p>
-            <select name="method" class="box">
+            <!-- <select name="method" class="box">
                 <option value="" disabled selected>select payment method --</option>
                 <option value="cash on delivery">cash on delivery</option>
                 <option value="credit card">credit card</option>
                 <option value="paytm">paytm</option>
                 <option value="paypal">paypal</option>
-            </select>
+            </select> -->
             <button class="btn" style="width:100%; background:var(--red); color:var(--white);" onclick="order()">
                 place order
             </button>

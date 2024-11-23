@@ -33,15 +33,23 @@ class CartBusiness
             return ['success' => false, 'message' => 'Quanlity is 0'];
         }
 
+        if($quanlity> $product->store){
+            return ['success' => false, 'message' => 'The quantity entered exceeds available stock. Please adjust your order'];
+        }
+
         if (!$product) {
             return ['success' => false, 'message' => 'Product not found!'];
         }
 
         $cart = self::getById($user_id, $product_id);
+
         if (!$cart) {
             $cart = new Cart();
             $cart->fill($aInput);
         } else {
+            if($cart->quanlity>= $product->store){
+                return ['success' => false, 'message' => 'The quantity entered exceeds available stock. Please adjust your order'];
+            }
             $cart->quanlity += $quanlity;
         }
         $cart->save();
